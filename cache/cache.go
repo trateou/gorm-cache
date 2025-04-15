@@ -4,9 +4,9 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/Pacific73/gorm-cache/config"
-	"github.com/Pacific73/gorm-cache/data_layer"
-	"github.com/Pacific73/gorm-cache/util"
+	"github.com/trateou/gorm-cache/config"
+	"github.com/trateou/gorm-cache/data_layer"
+	"github.com/trateou/gorm-cache/util"
 	"gorm.io/gorm"
 )
 

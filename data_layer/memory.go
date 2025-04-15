@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Pacific73/gorm-cache/config"
-	"github.com/Pacific73/gorm-cache/util"
+	"github.com/trateou/gorm-cache/config"
+	"github.com/trateou/gorm-cache/util"
 	"github.com/karlseguin/ccache/v2"
 )
 

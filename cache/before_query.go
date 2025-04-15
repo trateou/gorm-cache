@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Pacific73/gorm-cache/config"
-	"github.com/Pacific73/gorm-cache/util"
-	"github.com/go-redis/redis/v8"
+	"github.com/trateou/gorm-cache/config"
+	"github.com/trateou/gorm-cache/util"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"
 )

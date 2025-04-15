@@ -1,3 +1,28 @@
+## Disclaimer
+
+This is a forked version of the original [gorm-cache](https://github.com/Pacific73/gorm-cache) repository by [Pacific73](https://github.com/Pacific73).
+
+### Why this fork exists:
+- Required Redis v9 support, but the original project uses Redis v8
+- The original repository is no longer actively maintained and cannot update dependencies in time
+- Updated module path to `github.com/trateou/gorm-cache` to allow proper `go get` installation
+
+### Key changes in this fork:
+- Upgraded Redis client from v8 to v9 (`github.com/redis/go-redis/v9`)
+- Updated Go module path for proper dependency management
+- Maintained compatibility with the original API
+
+### Credits:
+All original work and design credit goes to [Pacific73](https://github.com/Pacific73). This fork is intended to keep the project alive and usable.
+
+### Usage:
+To use this fork in your project:
+```bash
+go get github.com/trateou/gorm-cache
+```
+
+
+---
 [![GoVersion](https://img.shields.io/github/go-mod/go-version/Pacific73/gorm-cache)](https://github.com/Pacific73/gorm-cache/blob/master/go.mod)
 [![Release](https://img.shields.io/github/v/release/Pacific73/gorm-cache)](https://github.com/Pacific73/gorm-cache/releases)
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache2.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -18,25 +43,25 @@ We provide 2 types of cache storage here:
 ```go
 import (
     "context"
-    "github.com/Pacific73/gorm-cache/cache"
-    "github.com/go-redis/redis"
+    "github.com/trateou/gorm-cache/cache"
+    "github.com/redis/go-redis/v9"
 )
 
 func main() {
     dsn := "user:pass@tcp(127.0.0.1:3306)/database_name?charset=utf8mb4"
     db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-    
+
     redisClient := redis.NewClient(&redis.Options{
-        Addr: "localhost:6379",    
+        Addr: "localhost:6379",
     })
-    
+
     cache, _ := cache.NewGorm2Cache(&config.CacheConfig{
         CacheLevel:           config.CacheLevelAll,
         CacheStorage:         config.CacheStorageRedis,
         RedisConfig:          cache.NewRedisConfigWithClient(redisClient),
         InvalidateWhenUpdate: true, // when you create/update/delete objects, invalidate cache
         CacheTTL:             5000, // 5000 ms
-        CacheMaxItemCnt:      5,    // if length of objects retrieved one single time 
+        CacheMaxItemCnt:      5,    // if length of objects retrieved one single time
                                     // exceeds this number, then don't cache
     })
     // More options in `config.config.go`
@@ -44,10 +69,10 @@ func main() {
     // cache.AttachToDB(db)
 
     var users []User
-    
+
     db.Where("value > ?", 123).Find(&users) // search cache not hit, objects cached
     db.Where("value > ?", 123).Find(&users) // search cache hit
-    
+
     db.Where("id IN (?)", []int{1, 2, 3}).Find(&users) // primary key cache not hit, users cached
     db.Where("id IN (?)", []int{1, 3}).Find(&users) // primary key cache hit
 }

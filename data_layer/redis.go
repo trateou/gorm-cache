@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/Pacific73/gorm-cache/config"
-	"github.com/Pacific73/gorm-cache/util"
-	"github.com/go-redis/redis/v8"
+	"github.com/trateou/gorm-cache/config"
+	"github.com/trateou/gorm-cache/util"
+	"github.com/redis/go-redis/v9"
 )
 
 type RedisLayer struct {
@@ -45,7 +45,7 @@ func (r *RedisLayer) initScripts() error {
 
 	cleanCacheScript := `
 		local keys = redis.call('keys', ARGV[1])
-		for i=1,#keys,5000 do 
+		for i=1,#keys,5000 do
 			redis.call('del', 'defaultKey', unpack(keys, i, math.min(i+4999, #keys)))
 		end
 		return 1`
